@@ -6,7 +6,7 @@
 
     <groupId>cn.enaium</groupId>
     <artifactId>launchwrapper</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -52,7 +52,7 @@
     <distributionManagement>
         <repository>
             <id>enaium-maven</id>
-            <url>file:///${ENV.MAVEN_URL}</url>
+            <url>file:///${env.MAVEN_URL}</url>
         </repository>
     </distributionManagement>
 </project>
