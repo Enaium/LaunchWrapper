@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface ITweaker {
 
-    void acceptOptions(List<String> args);
+    void acceptOptions(List<String> args, File gameDir, File assetsDir, String profile);
 
     void injectIntoClassLoader(LaunchClassLoader classLoader);
 

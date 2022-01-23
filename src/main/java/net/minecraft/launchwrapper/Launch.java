@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Level;
 public class Launch {
     private static final String DEFAULT_TWEAK = "net.minecraft.launchwrapper.template.TemplateTweaker";
     public static File minecraftHome;
+    public static File assetsDir;
     public static Map<String, Object> blackboard;
 
     public static void main(String[] args) {
@@ -47,12 +48,16 @@ public class Launch {
         final OptionParser parser = new OptionParser();
         parser.allowsUnrecognizedOptions();
 
+        final OptionSpec<String> profileOption = parser.accepts("version", "The version we launched with").withRequiredArg();
         final OptionSpec<File> gameDirOption = parser.accepts("gameDir", "Alternative game directory").withRequiredArg().ofType(File.class);
+        final OptionSpec<File> assetsDirOption = parser.accepts("assetsDir", "Assets directory").withRequiredArg().ofType(File.class);
         final OptionSpec<String> tweakClassOption = parser.accepts("tweakClass", "Tweak class(es) to load").withRequiredArg().defaultsTo(DEFAULT_TWEAK);
         final OptionSpec<String> nonOption = parser.nonOptions();
 
         final OptionSet options = parser.parse(args);
         minecraftHome = options.valueOf(gameDirOption);
+        assetsDir = options.valueOf(assetsDirOption);
+        final String profileName = options.valueOf(profileOption);
         final List<String> tweakClassNames = new ArrayList<>(options.valuesOf(tweakClassOption));
 
         final List<String> argumentList = new ArrayList<>();
@@ -113,7 +118,7 @@ public class Launch {
                 for (final Iterator<ITweaker> it = tweakers.iterator(); it.hasNext(); ) {
                     final ITweaker tweaker = it.next();
                     LogWrapper.log(Level.INFO, "Calling tweak class %s", tweaker.getClass().getName());
-                    tweaker.acceptOptions(options.valuesOf(nonOption));
+                    tweaker.acceptOptions(options.valuesOf(nonOption), minecraftHome, assetsDir, profileName);
                     tweaker.injectIntoClassLoader(classLoader);
                     allTweakers.add(tweaker);
                     // again, remove from the list once we've processed it, so we don't get duplicates
