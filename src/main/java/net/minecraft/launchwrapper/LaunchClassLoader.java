@@ -53,6 +53,7 @@ public class LaunchClassLoader extends URLClassLoader {
         addClassLoaderExclusion("org.lwjgl.");
         addClassLoaderExclusion("org.apache.logging.");
         addClassLoaderExclusion("net.minecraft.launchwrapper.");
+        addClassLoaderExclusion("org.slf4j");
 
         // transformer exclusions
         addTransformerExclusion("javax.");
