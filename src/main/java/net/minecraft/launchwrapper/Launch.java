@@ -31,7 +31,7 @@ public class Launch {
         if (getClass().getClassLoader() instanceof URLClassLoader) {
             Collections.addAll(urls, ((URLClassLoader) getClass().getClassLoader()).getURLs());
         } else {
-            for (String s : System.getProperty("java.class.path").split(";")) {
+            for (String s : System.getProperty("java.class.path").split(File.pathSeparator)) {
                 try {
                     urls.add(new File(s).toURI().toURL());
                 } catch (MalformedURLException e) {
